@@ -1,0 +1,15 @@
+function wrapper(selector,col){
+    let items = $(selector).find('.item');
+	let itemWrap = '<div class="wrap"></div>';
+	let arrayLenght = items.length;
+	let count = arrayLenght;
+	let i=0;
+	let newArrayLog = [];
+	while (i<=count) {
+        newArrayLog.push(items.slice(i,i+col));
+        i+=col;
+    }
+        newArrayLog.forEach(function(item){
+        item.wrapAll(itemWrap);
+	});	
+}
