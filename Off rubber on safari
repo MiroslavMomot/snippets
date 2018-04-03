@@ -1,0 +1,13 @@
+
+let scrollPos = 0;
+  $(window).scroll(function(){
+    var st = $(this).scrollTop();
+    console.log(st,scrollPos)
+    if (st > scrollPos){
+      //some actions        
+    } else {
+      //additional actions
+    }    
+    scrollPos = st;
+    if(scrollPos < 0) scrollPos = 0
+});
