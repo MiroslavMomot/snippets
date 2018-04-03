@@ -1,0 +1,46 @@
+function portfolioScroller(flag) {
+    if (wWidth > 1199 && flag) {
+        let currentS = 3e-5;
+        let lastS = 3e-5;
+        let lastTime = 3e-5;
+        let itemLength = $('.main_scroller .item').length;
+        let itemWidth = $('.main_scroller .item').width();
+        let maxScroll = itemLength * itemWidth - wWidth;
+        let isScrolling = false;
+
+        function Velocity(e) {
+            if (isScrolling) {
+                let speed = (currentS - lastS) / (e - lastTime);
+                lastTime = e;
+                lastS = currentS;
+                TweenLite.to('.main_scroller .item .information', 1, { skewY: speed / 2, x: speed * 50 });
+            };
+            window.requestAnimationFrame(Velocity);
+        };
+        Velocity();
+
+        function gotoClosest() {
+            let closest = Math.round(currentS / itemWidth);
+            goto(closest);
+        };
+
+        function goto(n) {
+            let scrollPos = itemWidth * n - currentS;
+            TweenLite.to('.main_scroller', 1, { x: -(currentS + scrollPos), overflow: 5, onComplete: function() { isScrolling = false; } });
+        };
+        document.addEventListener('wheel', function(event) {
+            // event.preventDefault();
+            let norm = normalizeWheel(event);
+            currentS += norm.spinY * 100;
+            if (!isScrolling) isScrolling = true;
+            if (currentS < 0) currentS = 0;
+            if (currentS > maxScroll) currentS = maxScroll;
+            TweenLite.to('.main_scroller', 1, {
+                x: -currentS,
+                overflow: 5,
+                onUpdate: function() { gotoClosest(); },
+                onComplete: function() { isScrolling = false; }
+            });
+        });
+    };
+};
