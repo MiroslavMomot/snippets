@@ -1,4 +1,5 @@
-function portfolioScroller(flag) {
+function velocityScroll(flag) {
+    let wWidth = $(window).width();
     if (wWidth > 1199 && flag) {
         let currentS = 3e-5;
         let lastS = 3e-5;
